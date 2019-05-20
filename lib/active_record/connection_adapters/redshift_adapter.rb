@@ -128,6 +128,16 @@ module ActiveRecord
         end
       end
 
+      def extension_enabled?(name)
+        return false unless supports_extensions?
+        super
+      end
+
+      def extensions
+        return [] unless supports_extensions?
+        super
+      end
+
     private
 
       # Copied from PostgreSQL with minor registration changes.  If broken out, could override segments, etc
@@ -172,7 +182,7 @@ module ActiveRecord
         end
       end
 
-      # rubocop:disable Style/CyclomaticComplexity
+      # rubocop:disable Metrics/CyclomaticComplexity
       def configure_connection
         if @config[:encoding]
           @connection.set_client_encoding(@config[:encoding])
@@ -191,7 +201,7 @@ module ActiveRecord
           end
         end
       end
-      # rubocop:enable Style/CyclomaticComplexity
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       # Returns the list of a table's column names, data types, and default values.
       #
